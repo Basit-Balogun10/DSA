@@ -12,6 +12,14 @@ with open('input.txt') as fp:
             square.append(list(file_line.strip().split(' ')))
 
 def sum_main_diagonal(square):
+    """finds the sum of main diagonal in a square tile
+
+    Args:
+        square (List): An array of numbers in square tile
+
+    Returns:
+        int: sum of numbers in main diagonal of square tile
+    """
     diagonal_sum = 0
     for index, line in enumerate(square):
         diagonal_sum += int(line[index])
