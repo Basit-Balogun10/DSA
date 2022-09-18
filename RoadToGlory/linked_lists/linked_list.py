@@ -154,24 +154,23 @@ if __name__ == "__main__":
 
     # * NOTE: IMPLEMENT PRIVATE remove() METHOD TO BE CALLED BY remove_at() and remove() (public one)
 
-    # ? add_node_as_head / insert_at_the_beginning / add_first: O(1)
+    # ✅ add_node_as_head / insert_at_the_beginning / add_first: O(1)
 
-    # ? ! __str__
-    # ? __len__
-    # ? __iter__
+    # ✅ ! __str__
+    # ✅ __len__
+    # ✅ __iter__
 
-    # ? @property: values - to access the values of all nodes included  in the sequence
+    # ✅ @property: values - to access the values of all nodes included  in the sequence
 
-    #! insert_after - insert after a node
-    #! insert_at - insert after a node
+    # ✅ insert_after - insert after a node
+    # ✅ insert_at - insert after a node
 
     #! remove_first: O(1)
     #! remove_last: O(1)
     #! remove_at: O(n) - remove from a position
     #! remove: O(n)
 
-    #! search_node
-
+    #! search_node 
     # JAVA
     #! clear: O(n)
     #! is_empty
