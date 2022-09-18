@@ -1,5 +1,6 @@
 from typing import Literal, Union
 
+
 class Node:
     def __init__(self, data, linked_list=None, next_node=None, prev_node=None):
         self.data = data
@@ -9,10 +10,11 @@ class Node:
 
     @property
     def id(self):
-        if self.linked_list._last_added_node:
-            return self.linked_list._last_added_node.id + 1
-        else:
-            return 1
+        if self.linked_list:
+            if self.linked_list._last_added_node_id:
+                return self.linked_list._last_added_node_id
+            else:
+                return 1
 
     def __str__(self) -> str:
         return str(self.data)
@@ -23,7 +25,7 @@ class LinkedList:
         self.head = None
         self.tail = None
         self._length = 0
-        self._last_added_node = None
+        self._last_added_node_id = None
 
         if values is not None:
             self.add_multiple_nodes(values)
@@ -32,12 +34,16 @@ class LinkedList:
         if not (0 <= ind < self._length):
             raise IndexError(f"{ind} is out of bound")
         return
-    
-    def _run_common_actions(self, action_type: Literal['add_node', 'remove_node'] , data):
-        if action_type == 'add_node':
+
+    def _run_common_actions(
+        self, action_type: Literal["add_node", "remove_node"], data
+    ):
+        if action_type == "add_node":
             self._length += 1
-            self._last_added_node = data
-            
+            if self._last_added_node_id:
+                self._last_added_node_id += 1
+            else:
+                self._last_added_node_id = 1
 
     def __iter__(self):
         current = self.head
@@ -65,7 +71,7 @@ class LinkedList:
         else:
             self.tail.next = Node(data, self)
             self.tail = self.tail.next
-        self._run_common_actions('add_node', self.tail)
+        self._run_common_actions("add_node", self.tail)
         return self.tail
 
     # O(1)
@@ -74,8 +80,8 @@ class LinkedList:
             self.add_node(data)
         self.head.next = self.head
         self.head = Node(data, self)
-        
-        self._run_common_actions('add_node', self.head)
+
+        self._run_common_actions("add_node", self.head)
         return self.head
 
     # O(n)
@@ -86,31 +92,31 @@ class LinkedList:
             if pointer == pos:
                 return node
             pointer += 1
-            
+
     def _insert(self, data, prev_node: Node):
         next_node: Node = prev_node.next
         new_node: Node = Node(data, self)
 
         prev_node.next = new_node
         new_node.next = next_node
-        self._run_common_actions('add_node', new_node)
+        self._run_common_actions("add_node", new_node)
         return new_node
 
     # O(1)
     def insert_after(self, data, prev_node: Node):
         if type(prev_node) != Node:
-            raise(TypeError('prev_node is not of type Node'))
-        
+            raise (TypeError("prev_node is not of type Node"))
+
         if prev_node.linked_list == self:
             if prev_node == self.tail:
                 self.add_node(data)
             return self._insert(data, prev_node)
         else:
-            raise ValueError(f'Node {prev_node} does not belong to this linked list')
+            raise ValueError(f"Node {prev_node} does not belong to this linked list")
 
     # O(n)
     def insert_at(self, data, pos):
-        if (pos == 0 and self._length == 0):
+        if pos == 0 and self._length == 0:
             self.add_node(data)
         else:
             self._check_index_bounds(pos)
@@ -128,11 +134,11 @@ if __name__ == "__main__":
     linked_list.add_node("fds")
     linked_list.add_node(439)
     print(linked_list)
-    linked_list.insert_at("new", 1)
-    print(linked_list)
-    target_node = linked_list.head.next
-    linked_list.insert_after('newer', target_node)
-    print(linked_list)
+    # linked_list.insert_at("new", 1)
+    # print(linked_list)
+    # target_node = linked_list.head.next
+    # linked_list.insert_after('newer', target_node)
+    # print(linked_list)
     # linked_list2 = LinkedList()
     # linked_list2.add_node(5)
     # linked_list2.add_node("fds")
