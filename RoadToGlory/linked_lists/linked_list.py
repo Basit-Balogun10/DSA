@@ -101,6 +101,7 @@ class LinkedList:
                 return node
             pointer += 1
             
+    # O(n)
     def index_of(self, data):
         pointer: int = 0
         for node in self:
@@ -174,6 +175,7 @@ class LinkedList:
         prev_node: Node = self.get_node(pos - 1)
         return self._remove(prev_node)
     
+    # O(n)
     def find_node(self, data):
         for node in self:
             if node.data == data:
@@ -181,6 +183,7 @@ class LinkedList:
             
         return None
     
+    # O(n)
     def clear(self):
         print('clearing', self)
         trav = self.head
@@ -248,7 +251,7 @@ if __name__ == "__main__":
     
     # ✅ remove: O(n)
 
-    # ✅ search_node 
+    # ✅ search_node O(n)
     
     # ✅ clear: O(n)
 
