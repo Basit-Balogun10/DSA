@@ -36,7 +36,7 @@ class LinkedList:
         return
 
     def _run_common_actions(
-        self, action_type: Literal["add_node", "remove_node"], data
+        self, action_type: Literal["add_node", "remove_node"]
     ):
         if action_type == "add_node":
             self._length += 1
@@ -44,6 +44,8 @@ class LinkedList:
                 self._last_added_node_id += 1
             else:
                 self._last_added_node_id = 1
+        elif action_type == "remove_node":
+            self._length -= 1
 
     def __iter__(self):
         current = self.head
@@ -71,27 +73,42 @@ class LinkedList:
         else:
             self.tail.next = Node(data, self)
             self.tail = self.tail.next
-        self._run_common_actions("add_node", self.tail)
+        self._run_common_actions("add_node")
         return self.tail
 
     # O(1)
     def add_first_node(self, data):
         if self._length == 0:
             self.add_node(data)
-        self.head.next = self.head
-        self.head = Node(data, self)
+        self.insert_after(self.head.data, self.head)
+        self.head.data = data
 
-        self._run_common_actions("add_node", self.head)
+        self._run_common_actions("add_node")
         return self.head
 
     # O(n)
     def get_node(self, pos):
         self._check_index_bounds(pos)
+        
+        if pos == 0:
+            return self.head
+        if pos == self._length - 1:
+            return self.tail
+        
         pointer: int = 0
         for node in self:
             if pointer == pos:
                 return node
             pointer += 1
+            
+    def index_of(self, data):
+        pointer: int = 0
+        for node in self:
+            if node.data == data:
+                return pointer
+            pointer += 1
+        
+        raise (ValueError(f'Linked list has no node with value {data}'))
 
     def _insert(self, data, prev_node: Node):
         next_node: Node = prev_node.next
@@ -99,7 +116,7 @@ class LinkedList:
 
         prev_node.next = new_node
         new_node.next = next_node
-        self._run_common_actions("add_node", new_node)
+        self._run_common_actions("add_node")
         return new_node
 
     # O(1)
@@ -115,13 +132,69 @@ class LinkedList:
             raise ValueError(f"Node {prev_node} does not belong to this linked list")
 
     # O(n)
-    def insert_at(self, data, pos):
-        if pos == 0 and self._length == 0:
-            self.add_node(data)
+    def insert_at(self, data, pos: int):
+        if pos == 0:
+            return self.add_first_node(data)
         else:
             self._check_index_bounds(pos)
             prev_node: Node = self.get_node(pos - 1)
             return self._insert(data, prev_node)
+        
+    def _remove(self, node: Node):
+        old_next = node.next.next
+        del node.next
+        node.next = old_next
+        
+        self._run_common_actions("remove_node")
+        
+    # O(1)
+    def remove_first(self):
+        second_node = self.head.next
+        del self.head
+        self.head = second_node
+        
+        self._run_common_actions("remove_node")
+    
+    # O(1)
+    def remove_last(self):
+        penultimate_node = self.tail.prev
+        del self.tail
+        self.tail = penultimate_node
+        
+        self._run_common_actions("remove_node")
+        
+    # O(n)
+    def remove_at(self, pos: int):
+        if pos == 0 and self._length > 0:
+            return self.remove_first()
+        if (pos == self._length - 1) and self._length > 0:
+            return self.remove_last()
+        
+        self._check_index_bounds(pos)
+        prev_node: Node = self.get_node(pos - 1)
+        return self._remove(prev_node)
+    
+    def find_node(self, data):
+        for node in self:
+            if node.data == data:
+                return node
+            
+        return None
+    
+    def clear(self):
+        print('clearing', self)
+        trav = self.head
+        while trav:
+            next_node = trav.next
+            trav.next = trav.prev = None
+            trav.data = None
+            
+            trav = next_node
+            
+        print('cleared', self)
+        self.head = self.tail = self._last_added_node_id = None
+        self._length = 0
+            
 
     # O(n)
     def __str__(self):
@@ -134,8 +207,8 @@ if __name__ == "__main__":
     linked_list.add_node("fds")
     linked_list.add_node(439)
     print(linked_list)
-    # linked_list.insert_at("new", 1)
-    # print(linked_list)
+    linked_list.insert_at("new", 0)
+    print('added', linked_list)
     # target_node = linked_list.head.next
     # linked_list.insert_after('newer', target_node)
     # print(linked_list)
@@ -152,31 +225,32 @@ if __name__ == "__main__":
     # print(linked_list)
     # print(linked_list.values)
 
-    # * NOTE: IMPLEMENT PRIVATE remove() METHOD TO BE CALLED BY remove_at() and remove() (public one)
-
+    # TODO: IMPLEMENT THE FOLLOWING METHODS
     # ✅ add_node_as_head / insert_at_the_beginning / add_first: O(1)
 
-    # ✅ ! __str__
+    # ✅ __str__
+    
     # ✅ __len__
+    
     # ✅ __iter__
 
     # ✅ @property: values - to access the values of all nodes included  in the sequence
 
     # ✅ insert_after - insert after a node
+    
     # ✅ insert_at - insert after a node
 
-    #! remove_first: O(1)
-    #! remove_last: O(1)
-    #! remove_at: O(n) - remove from a position
-    #! remove: O(n)
+    # ✅ remove_first: O(1)
+    
+    # ✅ remove_last: O(1)
+    
+    # ✅ remove_at: O(n) - remove from a position
+    
+    # ✅ remove: O(n)
 
-    #! search_node 
-    # JAVA
-    #! clear: O(n)
-    #! is_empty
+    # ✅ search_node 
+    
+    # ✅ clear: O(n)
 
-    #! peekFirst: O(1) - return value of head
-    #! peekLast: O(1) - return value of tail
-
-    #! indexOf: O(n)
-    #! contains / search
+    # ✅ indexOf: O(n)
+ 

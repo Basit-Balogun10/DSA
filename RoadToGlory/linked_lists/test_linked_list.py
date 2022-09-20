@@ -7,6 +7,14 @@ class LinkedListTest(unittest.TestCase):
         self.linked_list = LinkedList()
         self.test_values = ["item1", "item2", 40]
 
+    def test_check_index_bounds(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+        self.linked_list._check_index_bounds(0)
+        self.linked_list._check_index_bounds(1)
+        self.linked_list._check_index_bounds(2)
+        self.assertRaises(IndexError, self.linked_list._check_index_bounds, -1)
+        self.assertRaises(IndexError, self.linked_list._check_index_bounds, 3)
+
     def test_add_node(self):
         self.linked_list.add_node(5)
         self.assertEqual(self.linked_list.head.data, 5)
@@ -50,6 +58,14 @@ class LinkedListTest(unittest.TestCase):
         self.assertEqual(head.data, "first")
         self.assertEqual(second_node.data, "second")
         self.assertEqual(tail.data, 3)
+        
+    def test_index_of(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+        
+        self.assertEqual(self.linked_list.index_of("item1"), 0)
+        self.assertEqual(self.linked_list.index_of("item2"), 1)
+        self.assertEqual(self.linked_list.index_of(40), 2)
+        self.assertRaises(ValueError, self.linked_list.index_of, "missing node")
 
     def test_last_added_node_id(self):
         self.linked_list.add_node("first")
@@ -61,6 +77,7 @@ class LinkedListTest(unittest.TestCase):
     def test_insert_after(self):
         first_node = self.linked_list.add_node("first")
         self.linked_list.insert_after("second", first_node)
+
         self.assertEqual(self.linked_list.get_node(1).data, "second")
 
     def test_insert_at(self):
@@ -70,7 +87,57 @@ class LinkedListTest(unittest.TestCase):
         self.linked_list.add_multiple_nodes(self.test_values)
         new_node = {"new": ["newly", "inserted", "node"]}
         self.linked_list.insert_at(new_node, 2)
+
         self.assertEqual(self.linked_list.get_node(2).data, new_node)
+
+    def test_remove_first(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+        head = self.linked_list.head
+        linked_list_length = self.linked_list._length
+        self.linked_list.remove_first()
+
+        self.assertNotEqual(self.linked_list.head, head)
+        self.assertEqual(self.linked_list._length, linked_list_length - 1)
+
+    def test_remove_last(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+        tail = self.linked_list.tail
+        linked_list_length = self.linked_list._length
+        self.linked_list.remove_last()
+
+        self.assertNotEqual(self.linked_list.tail, tail)
+        self.assertEqual(self.linked_list._length, linked_list_length - 1)
+
+    def test_remove_at(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+        linked_list_length = self.linked_list._length
+        self.linked_list.remove_at(1)
+        for node in self.linked_list:
+            self.assertNotEqual(node.data, "item2")
+
+        self.assertEqual(self.linked_list._length, linked_list_length - 1)
+
+    def test_find_node(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+
+        self.assertNotEqual(self.linked_list.find_node("item1"), None)
+        self.assertNotEqual(self.linked_list.find_node("item2"), None)
+        self.assertNotEqual(self.linked_list.find_node(40), None)
+        self.assertEqual(self.linked_list.find_node("missing node"), None)
+
+    def test_clear(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+        self.linked_list.clear()
+
+        self.assertEqual(self.linked_list.head, None)
+        self.assertEqual(self.linked_list.tail, None)
+        self.assertEqual(self.linked_list._last_added_node_id, None)
+        self.assertEqual(self.linked_list._length, 0)
+
+    def test_linked_list_print(self):
+        self.linked_list.add_node("first")
+        self.linked_list.add_node("second")
+        self.assertEqual(self.linked_list.__str__(), "first --> second")
 
     # INTEGRATION TESTS
     def test_get_node_node_after_insertion(self):
@@ -92,11 +159,6 @@ class LinkedListTest(unittest.TestCase):
         self.linked_list.add_node("third")
         last_added_node = self.linked_list.insert_after("second", first_node)
         self.assertEqual(self.linked_list._last_added_node_id, last_added_node.id)
-
-    def test_linked_list_print(self):
-        self.linked_list.add_node("first")
-        self.linked_list.add_node("second")
-        self.assertEqual(self.linked_list.__str__(), "first --> second")
 
 
 class NodeTest(unittest.TestCase):
@@ -121,7 +183,7 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(self.node2.id, 1)
 
     def test_node_id_with_real_last_added_node_id(self):
-        first_node = self.test_linked_list.add_node("A new node")
+        self.test_linked_list.add_node("A new node")
         self.assertNotEqual(self.test_linked_list._last_added_node_id, None)
         second_node = self.test_linked_list.add_node("Yet another node")
 
