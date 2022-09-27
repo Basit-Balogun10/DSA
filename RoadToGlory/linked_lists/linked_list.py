@@ -1,6 +1,4 @@
 from typing import Literal, Union
-
-
 class Node:
     def __init__(self, data, linked_list=None, next_node=None, prev_node=None):
         self.data = data
@@ -141,27 +139,36 @@ class LinkedList:
             prev_node: Node = self.get_node(pos - 1)
             return self._insert(data, prev_node)
         
-    def _remove(self, node: Node):
-        old_next = node.next.next
-        del node.next
-        node.next = old_next
+    def _remove(self, prev_node: Node):
+        old_next = prev_node.next.next
         
+        # Memory cleanup
+        prev_node.next.data = prev_node.next.next = None
+        del prev_node.next
+        
+        prev_node.next = old_next
         self._run_common_actions("remove_node")
         
     # O(1)
     def remove_first(self):
         second_node = self.head.next
-        del self.head
-        self.head = second_node
         
+        # Memory cleanup
+        self.head.data = self.head.next = None
+        del self.head
+        
+        self.head = second_node
         self._run_common_actions("remove_node")
     
     # O(1)
     def remove_last(self):
         penultimate_node = self.tail.prev
-        del self.tail
-        self.tail = penultimate_node
         
+        # Memory cleanup
+        self.tail.data = self.tail.prev = None
+        del self.tail
+        
+        self.tail = penultimate_node
         self._run_common_actions("remove_node")
         
     # O(n)

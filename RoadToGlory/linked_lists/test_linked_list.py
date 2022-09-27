@@ -80,6 +80,18 @@ class LinkedListTest(unittest.TestCase):
 
         self.assertEqual(self.linked_list.get_node(1).data, "second")
 
+    def test_insert_after_with_invalid_node_of_another_linked_list(self):
+        new_linked_list = LinkedList()
+        new_linked_list.add_node('new_node')
+        self.linked_list.add_multiple_nodes(self.test_values)
+        
+        self.assertRaises(ValueError, self.linked_list.insert_after, 'item3', new_linked_list.head)
+
+    def test_insert_after_with_invalid_prev_node_type(self):
+        self.linked_list.add_multiple_nodes(self.test_values)
+        
+        self.assertRaises(TypeError, self.linked_list.insert_after, 'item3', 'item2')
+    
     def test_insert_at(self):
         self.linked_list.insert_at("first", 0)
         self.assertEqual(self.linked_list.head.data, "first")
@@ -89,7 +101,7 @@ class LinkedListTest(unittest.TestCase):
         self.linked_list.insert_at(new_node, 2)
 
         self.assertEqual(self.linked_list.get_node(2).data, new_node)
-
+        
     def test_remove_first(self):
         self.linked_list.add_multiple_nodes(self.test_values)
         head = self.linked_list.head
