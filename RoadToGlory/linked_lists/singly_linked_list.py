@@ -18,7 +18,7 @@ class Node:
         return str(self.data)
 
 
-class LinkedList:
+class SinglyLinkedList:
     def __init__(self, values: Union[list, tuple] = None):
         self.head = None
         self.tail = None
@@ -58,7 +58,12 @@ class LinkedList:
 
     @property
     def values(self):
-        return [node.data for node in self]
+        values = []
+        for node in self:
+            values.append(node.data)
+            
+        return values
+        # return [node.data for node in self]
 
     def add_multiple_nodes(self, values: list | tuple):
         for value in values:
@@ -126,7 +131,8 @@ class LinkedList:
         if prev_node.linked_list == self:
             if prev_node == self.tail:
                 self.add_node(data)
-            return self._insert(data, prev_node)
+            else:
+                return self._insert(data, prev_node)
         else:
             raise ValueError(f"Node {prev_node} does not belong to this linked list")
 
@@ -154,7 +160,6 @@ class LinkedList:
         second_node = self.head.next
         
         # Memory cleanup
-        self.head.data = self.head.next = None
         del self.head
         
         self.head = second_node
@@ -192,7 +197,6 @@ class LinkedList:
     
     # O(n)
     def clear(self):
-        print('clearing', self)
         trav = self.head
         while trav:
             next_node = trav.next
@@ -201,7 +205,6 @@ class LinkedList:
             
             trav = next_node
             
-        print('cleared', self)
         self.head = self.tail = self._last_added_node_id = None
         self._length = 0
             
@@ -212,28 +215,28 @@ class LinkedList:
 
 
 if __name__ == "__main__":
-    linked_list = LinkedList()
-    linked_list.add_node(5)
-    linked_list.add_node("fds")
-    linked_list.add_node(439)
-    print(linked_list)
-    linked_list.insert_at("new", 0)
-    print('added', linked_list)
-    # target_node = linked_list.head.next
-    # linked_list.insert_after('newer', target_node)
-    # print(linked_list)
-    # linked_list2 = LinkedList()
-    # linked_list2.add_node(5)
-    # linked_list2.add_node("fds")
-    # linked_list2.add_node(439)
-    # linked_list.insert_after('new', linked_list.head.next)
-    # my_iter = iter(linked_list)
+    singly_linked_list = SinglyLinkedList()
+    singly_linked_list.add_node(5)
+    singly_linked_list.add_node("fds")
+    singly_linked_list.add_node(439)
+    print(singly_linked_list)
+    singly_linked_list.insert_at("new", 0)
+    print('added', singly_linked_list)
+    # target_node = singly_linked_list.head.next
+    # singly_linked_list.insert_after('newer', target_node)
+    # print(singly_linked_list)
+    # singly_linked_list2 = SinglyLinkedList()
+    # singly_linked_list2.add_node(5)
+    # singly_linked_list2.add_node("fds")
+    # singly_linked_list2.add_node(439)
+    # singly_linked_list.insert_after('new', singly_linked_list.head.next)
+    # my_iter = iter(singly_linked_list)
 
     # print(next(my_iter))
     # print(next(my_iter))
     # print(next(my_iter))
-    # print(linked_list)
-    # print(linked_list.values)
+    # print(singly_linked_list)
+    # print(singly_linked_list.values)
 
     # TODO: IMPLEMENT THE FOLLOWING METHODS
     # ✅ add_node_as_head / insert_at_the_beginning / add_first: O(1)
