@@ -1,3 +1,11 @@
 {
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "files.associations": {
+        "*.excalidraw": "json",
+        "*.excalidrawlib": "json",
+        "*.js": "javascript",
+        "array.h": "c",
+        "cstdlib": "c"
+    },
+    "todo-tree.tree.scanMode": "workspace"
 }

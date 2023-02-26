@@ -1,0 +1,11 @@
+void run_all_tests();
+void test_new_jarray();
+void test_is_empty();
+void test_jarray_size();
+void test_jarray_at();
+void test_jarray_insert();
+void test_jarray_prepend();
+void test_jarray_delete();
+void test_jarray_pop();
+void test_jarray_remove();
+void test_jarray_find();
