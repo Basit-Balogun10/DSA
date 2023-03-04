@@ -1,0 +1,10 @@
+1) Keeping track of list's size and using it while traversing
+doesn't feel too good to me. I'll prefer traversing using a while loop
+instead (and break when current_node is NULL). But it's all good, they're
+both of the same time complexity.
+
+2) In the pop_front and pop_back functions (for SLL and DLL), creating
+an empty_node and assigning to head and tail of list seem like a bit wastage of memory.
+Something similar is seen in the create functions too. I should probably initialize
+the head and tail with NULL or something instead of allocating space for an empty empty_node
+in memory.
