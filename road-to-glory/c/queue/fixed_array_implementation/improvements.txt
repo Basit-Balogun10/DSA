@@ -1,0 +1,5 @@
+1) Quite certain that 'queue_destroy' function works fine,
+because code breaks (exits with a large value integer) when I attempt to print
+a destroyed queue. But it would be nice to write a working for test
+for the queue_destroy function.
+

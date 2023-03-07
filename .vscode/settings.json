@@ -5,7 +5,10 @@
         "*.excalidrawlib": "json",
         "*.js": "javascript",
         "array.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "stdbool.h": "c",
+        "queue.h": "c",
+        "tests.h": "c"
     },
     "todo-tree.tree.scanMode": "workspace"
 }

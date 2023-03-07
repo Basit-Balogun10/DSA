@@ -5,6 +5,8 @@ both of the same time complexity.
 
 2) In the pop_front and pop_back functions (for SLL and DLL), creating
 an empty_node and assigning to head and tail of list seem like a bit wastage of memory.
-Something similar is seen in the create functions too. I should probably initialize
+Something similar is seen in the 'create' functions too. I should probably initialize
 the head and tail with NULL or something instead of allocating space for an empty empty_node
 in memory.
+
+3) Implement an erase() function, to delete all nodes in linked list and free up memory used by linked list

@@ -161,6 +161,7 @@ int jarray_find(myArray *arr_ptr, int item) {
     return -1;
 }
 
+// !TOFIX: NOT WORKING
 char *jarray_stringify(myArray *arr_ptr) {
     char arr_string[] = "[";
     char *str_ptr = malloc(arr_ptr->size + 3);
@@ -222,4 +223,4 @@ void check_index_bounds(myArray *arr_ptr, int index) {
 // WHY DO I NEED TO RESIZE ARRAY? WHEN CODE STILL WORKS FINE EVEN WHEN I DON'T RESIZE
 // ALSO, CODE WORKS FINE EVEN WHEN I DON'T ALLOCATE ENOUGH MEMORY TO ARRAY FOR ITS ELEMENTS
 
-// HOW MEMSET WORKS...
+// * HOW MEMSET WORKS...

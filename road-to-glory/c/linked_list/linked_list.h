@@ -95,7 +95,7 @@ int SLL_remove_value(SLinkedList *list_ptr, int value);
 int DLL_remove_value(DLinkedList *list_ptr, int value);
 #define linked_list_remove_value(list, value) _Generic((list), SLinkedList *: SLL_remove_value, DLinkedList *: DLL_remove_value)(list, value)
 
-// *Removes first node with provided value from the linked list
+// *Outputs nodes in linked list
 void SLL_print(SLinkedList *list_ptr);
 void DLL_print(DLinkedList *list_ptr);
 #define linked_list_print(list) _Generic((list), SLinkedList *: SLL_remove_value, DLinkedList *: DLL_remove_value)(list)
