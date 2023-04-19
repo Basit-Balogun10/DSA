@@ -103,3 +103,6 @@ if __name__ == '__main__':
     fptr.write('\n')
 
     fptr.close()
+
+
+# https://www.hackerrank.com/challenges/delete-a-node-from-a-linked-list?isFullScreen=tru

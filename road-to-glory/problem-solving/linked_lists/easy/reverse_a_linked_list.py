@@ -27,18 +27,19 @@ class SinglyLinkedList:
 
         self.tail = node
 
-def print_singly_linked_list(node, sep):
+def print_singly_linked_list(node, sep, fptr):
     while node:
-        print(node.data, end='')
+        fptr.write(str(node.data))
 
         node = node.next
 
         if node:
-            print(sep, end='')
+            fptr.write(sep)
 
 #
-# Complete the 'reversePrint' function below.
+# Complete the 'reverse' function below.
 #
+# The function is expected to return an INTEGER_SINGLY_LINKED_LIST.
 # The function accepts INTEGER_SINGLY_LINKED_LIST llist as parameter.
 #
 
@@ -51,24 +52,24 @@ def print_singly_linked_list(node, sep):
 #
 #
 
-def reversePrint(llist):
-    if not llist:
-        return
+def reverse(llist):
+    current = llist
+    prev = None
+    next = SinglyLinkedListNode(None)
     
-    node = llist
-    data_arr = []
-    while node:
-        data_arr.append(node.data)
-        node = node.next
-    data_arr.reverse()
+    while current:
+        next = current.next
+        current.next = prev
+        prev = current
+        current = next
     
-    for data in data_arr:
-        print(data)
-        
-    # Write your code here
-
+    llist = prev
+    return llist
+    
 
 if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
     tests = int(input())
 
     for tests_itr in range(tests):
@@ -80,7 +81,11 @@ if __name__ == '__main__':
             llist_item = int(input())
             llist.insert_node(llist_item)
 
-        reversePrint(llist.head)
+        llist1 = reverse(llist.head)
 
+        print_singly_linked_list(llist1, ' ', fptr)
+        fptr.write('\n')
 
-# https://www.hackerrank.com/challenges/print-the-elements-of-a-linked-list-in-reverse?isFullScreen=true
+    fptr.close()
+
+# https://www.hackerrank.com/challenges/reverse-a-linked-list?isFullScreen=true
